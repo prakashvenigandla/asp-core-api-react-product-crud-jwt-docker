@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  aspcorejwtdb:
+    build:
+      context: .
+      dockerfile: ProductCrudJwtDb/Dockerfile
+    ports:
+      - "5106:5106"
+    depends_on:
+      - sqlserver
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=MyDb;User=sa;Password=Strong@Passw0rd;TrustServerCertificate=True
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Strong@Passw0rd
+    ports:
+      - "1433:1433"
